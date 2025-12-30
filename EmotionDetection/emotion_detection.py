@@ -17,16 +17,25 @@ def emotion_detector(text_to_analyse):
     # Parsing the JSON response from the API
     formatted_response = json.loads(response.text)
 
-    # Save all emotion values
-    emotions = formatted_response['emotionPredictions'][0]['emotion']
-    
-    # Extracting emotion label and score from the response
-    anger = formatted_response['emotionPredictions'][0]['emotion']['anger']
-    disgust = formatted_response['emotionPredictions'][0]['emotion']['disgust']
-    fear = formatted_response['emotionPredictions'][0]['emotion']['fear']
-    joy = formatted_response['emotionPredictions'][0]['emotion']['joy']
-    sadness = formatted_response['emotionPredictions'][0]['emotion']['sadness']
-    dominant_emotion = max(formatted_response['emotionPredictions'][0]['emotion'], key=emotions.get)
+    # If the response status code is 200, extract emotion label and score from the response
+    if response.status_code == 200:
+        # Save all emotion values
+        emotions = formatted_response['emotionPredictions'][0]['emotion']
+
+        anger = formatted_response['emotionPredictions'][0]['emotion']['anger']
+        disgust = formatted_response['emotionPredictions'][0]['emotion']['disgust']
+        fear = formatted_response['emotionPredictions'][0]['emotion']['fear']
+        joy = formatted_response['emotionPredictions'][0]['emotion']['joy']
+        sadness = formatted_response['emotionPredictions'][0]['emotion']['sadness']
+        dominant_emotion = max(formatted_response['emotionPredictions'][0]['emotion'], key=emotions.get)
+    # If the response status code is 400, set emotions to None
+    elif response.status_code == 400:
+        anger = None
+        disgust = None
+        fear = None
+        joy = None
+        sadness = None
+        dominant_emotion = None
 
     # Returning a dictionary containing emotion analysis results
     return {

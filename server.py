@@ -33,8 +33,8 @@ def sent_analyzer():
     dominant_emotion = response['dominant_emotion']
 
     # Check if the anger is None, indicating an error or invalid input
-    if anger is None:
-        return "Invalid input! Try again."
+    if dominant_emotion is None:
+        return "Invalid text! Please try again!"
     else:
         # Return a formatted string with the sentiment label and score
         return f"For the given statement, the system response is 'anger': {anger}, 'disgust': {disgust}, 'fear': {fear}, 'joy': {joy} and 'sadness': {sadness}. The dominant emotion is {dominant_emotion}."
